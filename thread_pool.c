@@ -50,6 +50,16 @@ void thread_pool_execute(thread_pool_t *pool,void* (*callback)(void*),void *arg)
 	task_queue_put(pool,callback,arg);
 }
 
+void thread_pool_join(thread_pool_t *pool)
+{
+	int i;
+	pthread_t *tids = pool->tids;
+	for(i = 0; i < pool->size; ++i)
+	{
+		pthread_join(tids[i],NULL);
+	}
+}
+
 void thread_pool_stop(thread_pool_t *pool)
 {
 	pool->flag = 0;
