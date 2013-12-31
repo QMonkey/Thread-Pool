@@ -15,6 +15,14 @@ static void* callback(void *arg)
 	return NULL;
 }
 
+static void* callback_function(void *arg)
+{
+	printf("Before sleep:\t%d\n",(int)arg);
+	sleep(5);
+	printf("After sleep:\t%d\n",(int)arg);
+	return NULL;
+}
+
 int main(int argc,char **argv)
 {
 	if(argc < 4)
@@ -29,6 +37,12 @@ int main(int argc,char **argv)
 	for(i = 0; i < end; ++i)
 	{
 		thread_pool_execute(pool,callback,&value);
+	}
+	printf("\n");
+	sleep(5);
+	for(i = 0; i < end; ++i)
+	{
+		thread_pool_execute(pool,callback_function,(void*)i);
 	}
 	sleep(atoi(argv[3]));
 	thread_pool_destroy(pool);
